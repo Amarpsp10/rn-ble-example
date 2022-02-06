@@ -2,7 +2,6 @@ import React,{ useEffect, useRef, useState } from 'react'
 import { View, Switch, StyleSheet, Text, ActivityIndicator, FlatList, TouchableOpacity, Dimensions } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import BluetoothSerial from 'react-native-bluetooth-serial';
-import theme from '../theme'
 import { Button, Divider } from 'react-native-elements';
 import Dialog, { DialogContent,  SlideAnimation,  DialogButton, DialogFooter } from 'react-native-popup-dialog';
 
@@ -193,6 +192,14 @@ const Bluetooth = () =>{
         }
     }
 
+    const writeData = () =>{
+        Bluetooth.write('Working now').then(value=>{
+            console.log(value)
+        }).catch((e)=>{
+            console.log(e)
+        })
+    }
+
     useEffect(()=>{
         if(isBlEnable){
             pairedDevices()
@@ -208,7 +215,7 @@ const Bluetooth = () =>{
                 <Text style={{fontSize:20,fontWeight:'bold'}}>Connect Device</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={isBlEnable ? theme.colors.green : "#f4f3f4"}
+                    thumbColor={isBlEnable ? 'green' : "#f4f3f4"}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitch}
                     value={isBlEnable}
@@ -216,12 +223,13 @@ const Bluetooth = () =>{
             </View>
             <View style={styles.buttons}>
                 <Button type={screen==='paired'? 'outline':'solid'} containerStyle={{width:'48%'}} buttonStyle={{borderWidth:1}} titleStyle={{fontSize:18}} onPress={()=>toggleScreen()} title='Paired Devices'/>
-                <Button type={screen!=='paired'? 'outline':'solid'} containerStyle={{width:'48%'}} buttonStyle={{borderWidth:1}} titleStyle={{fontSize:18}} onPress={()=>toggleScreen()} title='Unpaired Devices'/>
+                <Button type={screen!=='paired'? 'outline':'solid'} containerStyle={{width:'48%'}} buttonStyle={{borderWidth:1}} titleStyle={{fontSize:18}} onPress={()=>toggleScreen()} title='Unpaired Devices'/>                
             </View>
+                <Button type={'outline'} buttonStyle={{borderWidth:1}} titleStyle={{fontSize:18}} onPress={()=>writeData()} title='Write Data to App'/>
             <View style={styles.content}>
                 {!isBlEnable?
                     <View style={styles.messagePage}>
-                        <Icon name='bluetooth' size={30}/>
+                        {/* <Icon name='bluetooth' size={30}/> */}
                         <Text style={{fontSize:18}}>Please Turn On Bluetooth</Text>
                     </View>
                 :
@@ -310,16 +318,16 @@ const Bluetooth = () =>{
 
 const styles = StyleSheet.create({
     container:{
-        flex:1
+        flex:1,
     },
     header:{
         flexDirection:'row',
         justifyContent:'space-between',
-        width:windowWidth,
+        width:'100%',
         paddingHorizontal:10,
         height:70,
         alignItems:'center',
-        backgroundColor:theme.colors.lightBlue,
+        backgroundColor: 'white',
         elevation:3
     },
     buttons:{
